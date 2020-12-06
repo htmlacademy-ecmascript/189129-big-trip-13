@@ -1,11 +1,22 @@
-export const createTripPointTemplate = () =>
-  `<li class="trip-events__item">
+const createOffersTemplate = (name, price) =>
+  `<li class="event__offer">
+    <span class="event__offer-title">${name}</span>
+    &plus;
+    &euro;&nbsp;<span class="event__offer-price">${price}</span>
+  </li>`;
+
+export const createTripPointTemplate = (pointData) => {
+  const {type, city, offers, price} = pointData;
+
+  const offersTemplate = offers.map((it) => createOffersTemplate(it.name, it.price)).join(`\n`);
+
+  return `<li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="2019-03-18">MAR 18</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/flight.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type.name.toLowerCase()}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Flight Chamonix</h3>
+      <h3 class="event__title">${type.name} ${type.pretext} ${city}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="2019-03-18T12:25">12:25</time>
@@ -15,20 +26,11 @@ export const createTripPointTemplate = () =>
         <p class="event__duration">1H 10M</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">160</span>
+        &euro;&nbsp;<span class="event__price-value">${price}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">Add luggage</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">50</span>
-        </li>
-        <li class="event__offer">
-          <span class="event__offer-title">Switch to comfort</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">80</span>
-        </li>
+        ${offersTemplate}
       </ul>
       <button class="event__favorite-btn" type="button">
         <span class="visually-hidden">Add to favorite</span>
@@ -41,3 +43,4 @@ export const createTripPointTemplate = () =>
       </button>
     </div>
   </li>`;
+};

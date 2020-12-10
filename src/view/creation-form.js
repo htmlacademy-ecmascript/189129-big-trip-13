@@ -1,4 +1,6 @@
-export const createCreationFormTemplate = () =>
+import {createElement} from "../utils";
+
+const createCreationFormTemplate = () =>
   `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
@@ -166,3 +168,25 @@ export const createCreationFormTemplate = () =>
       </section>
     </form>
   </li>`;
+
+export default class CreationFormComponent {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCreationFormTemplate(this._creationForm);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,5 +1,6 @@
 import {formatDate} from "../utils";
 import {formatTime} from "../utils";
+import {createElement} from "../utils";
 import {routePointTypeNames} from "../mock/trip-point";
 
 const createOffersTemplate = (type, name, price) =>
@@ -21,7 +22,7 @@ const createTypeTemplate = (type) =>
     <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
   </div>`;
 
-export const createEditFormTemplate = (pointData) => {
+const createEditFormTemplate = (pointData) => {
   const {type, city, offers, text, photos, price, startDate, endDate} = pointData;
 
   const startDateValue = formatDate(startDate);
@@ -107,3 +108,26 @@ export const createEditFormTemplate = (pointData) => {
     </form>
   </li>`;
 };
+
+export default class EditFormComponent {
+  constructor(cardData) {
+    this._cardData = cardData;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEditFormTemplate(this._cardData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

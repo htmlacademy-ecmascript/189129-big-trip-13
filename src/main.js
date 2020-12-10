@@ -1,4 +1,6 @@
-import CreationFormComponent from "./view/creation-form";
+/*eslint-disable */
+// import CreationFormComponent from "./view/creation-form";
+/*eslint-disable */
 import EditFormComponent from "./view/edit-form";
 import FiltersComponent from "./view/filters";
 import MenuComponent from "./view/menu";
@@ -44,9 +46,11 @@ const tripPointsDates = [
   ...new Set(routePoints.map((it) => new Date(it.startDate).toDateString()))
 ];
 
-const siteTripInfoElement = document.querySelector(`.trip-main`);
-render(siteTripInfoElement, new PriceComponent(routePoints).getTemplate(), RenderPosition.AFTERBEGIN);
-render(siteTripInfoElement, new TripInfoComponent(tripPointsCities, tripPointsDates).getElement(), RenderPosition.AFTERBEGIN);
+const siteTripMainElement = document.querySelector(`.trip-main`);
+render(siteTripMainElement, new TripInfoComponent(tripPointsCities, tripPointsDates).getElement(), RenderPosition.AFTERBEGIN);
+
+const siteTripInfoElement = siteTripMainElement.querySelector(`.trip-info`)
+render(siteTripInfoElement, new PriceComponent(routePoints).getElement(), RenderPosition.BEFOREEND);
 
 const siteTripTitleElement = document.querySelector(`.trip-controls__title--js`);
 render(siteTripTitleElement, new MenuComponent().getElement(), RenderPosition.AFTEREND);
@@ -59,5 +63,7 @@ render(siteTripEventsElement, new SortingComponent(sortingTypes).getElement(), R
 render(siteTripEventsElement, new TripListComponent().getElement(), RenderPosition.BEFOREEND);
 
 const siteTripEventsListElement = siteTripEventsElement.querySelector(`.trip-events__list`);
-render(siteTripEventsListElement, new CreationFormComponent().getElement(), RenderPosition.BEFOREEND);
+/*eslint-disable */
+// render(siteTripEventsListElement, new CreationFormComponent().getElement(), RenderPosition.BEFOREEND);
+/*eslint-disable */
 routePoints.map((routePoint) => renderTripPoint(routePoint, siteTripEventsListElement));

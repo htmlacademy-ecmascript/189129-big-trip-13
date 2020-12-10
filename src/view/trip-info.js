@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const COUNT = 3;
 
 const getTripRoute = (cities) => {
@@ -12,7 +14,7 @@ const getTripDates = (dates) => {
   return (dates[0].slice(4, 10) + `&nbsp;&mdash;&nbsp;` + dates[dates.length - 1].slice(8, 10)).toString();
 };
 
-export const createTripInfoTemplate = (cities, dates) => {
+const createTripInfoTemplate = (cities, dates) => {
   return `<section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
       <h1 class="trip-info__title">${getTripRoute(cities)}</h1>
@@ -20,3 +22,27 @@ export const createTripInfoTemplate = (cities, dates) => {
     </div>
   </section>`;
 };
+
+export default class TripInfoComponent {
+  constructor(cities, dates) {
+    this._cities = cities;
+    this._dates = dates;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripInfoTemplate(this._cities, this._dates);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

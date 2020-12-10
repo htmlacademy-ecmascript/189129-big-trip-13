@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createOffersTemplate = (name, price) =>
   `<li class="event__offer">
     <span class="event__offer-title">${name}</span>
@@ -5,7 +7,7 @@ const createOffersTemplate = (name, price) =>
     &euro;&nbsp;<span class="event__offer-price">${price}</span>
   </li>`;
 
-export const createTripPointTemplate = (pointData) => {
+const createTripPointTemplate = (pointData) => {
   const {type, city, offers, price} = pointData;
 
   const offersTemplate = offers.map((it) => createOffersTemplate(it.name, it.price)).join(`\n`);
@@ -44,3 +46,26 @@ export const createTripPointTemplate = (pointData) => {
     </div>
   </li>`;
 };
+
+export default class TripPointComponent {
+  constructor(cardData) {
+    this._cardData = cardData;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripPointTemplate(this._cardData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

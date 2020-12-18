@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const createPriceTemplate = (pointsData) => {
   const price = pointsData.map((pointData) => pointData.price).reduce((sum, current) => sum + current, 0);
@@ -10,25 +10,13 @@ const createPriceTemplate = (pointsData) => {
   );
 };
 
-export default class PriceComponent {
+export default class PriceComponent extends Abstract {
   constructor(cardsData) {
+    super();
     this._cardsData = cardsData;
-    this._element = null;
   }
 
   getTemplate() {
     return createPriceTemplate(this._cardsData);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

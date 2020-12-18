@@ -15,27 +15,23 @@ import {routePoints} from "./mock/trip-point";
 import {filterNames} from "./mock/filters";
 import {sortingTypes} from "./mock/sorting";
 
-import {render} from "./utils";
-import {RenderPosition} from "./utils";
+import {render} from "./utils/render";
+import {replace} from "./utils/render";
+import {RenderPosition} from "./utils/render";
 
 const renderTripPoint = (datePoint, currentTripList) => {
   const editFormComponent = new EditFormComponent(datePoint);
-  const editForm = editFormComponent.getElement();
   const tripEventComponent = new TripPointComponent(datePoint);
-  const editButton = tripEventComponent.getElement().querySelector(`.event__rollup-btn`);
-  const closeButton = editFormComponent.getElement().querySelector(`.event__rollup-btn`);
 
   const replacePointToEdit = () => {
-    currentTripList.replaceChild(editFormComponent.getElement(), tripEventComponent.getElement());
-    editForm.addEventListener(`submit`, replaceEditToPoint);
-    closeButton.addEventListener(`click`, replaceEditToPoint);
+    replace(editFormComponent, tripEventComponent);
+    editFormComponent.setFormSubmitHandler(replaceEditToPoint);
+    editFormComponent.setCloseClickHandler(replaceEditToPoint);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   const replaceEditToPoint = () => {
-    currentTripList.replaceChild(tripEventComponent.getElement(), editFormComponent.getElement());
-    editForm.removeEventListener(`submit`, replaceEditToPoint);
-    closeButton.removeEventListener(`click`, replaceEditToPoint);
+    replace(tripEventComponent, editFormComponent);
   };
 
   const onEscKeyDown = (evt) => {
@@ -46,28 +42,28 @@ const renderTripPoint = (datePoint, currentTripList) => {
     }
   };
 
-  editButton.addEventListener(`click`, replacePointToEdit);
+  tripEventComponent.setEditClickHandler(replacePointToEdit);
 
-  render(currentTripList, tripEventComponent.getElement(), RenderPosition.BEFOREEND);
+  render(currentTripList, tripEventComponent, RenderPosition.BEFOREEND);
 };
 
 const siteTripTitleElement = document.querySelector(`.trip-controls__title--js`);
-render(siteTripTitleElement, new MenuComponent().getElement(), RenderPosition.AFTEREND);
+render(siteTripTitleElement, new MenuComponent(), RenderPosition.AFTEREND);
 
 const siteTripControlsElement = document.querySelector(`.trip-controls`);
-render(siteTripControlsElement, new FiltersComponent(filterNames).getElement(), RenderPosition.BEFOREEND);
+render(siteTripControlsElement, new FiltersComponent(filterNames), RenderPosition.BEFOREEND);
 
 const siteTripEventsElement = document.querySelector(`.trip-events`);
-render(siteTripEventsElement, new SortingComponent(sortingTypes).getElement(), RenderPosition.BEFOREEND);
-render(siteTripEventsElement, new TripListComponent().getElement(), RenderPosition.BEFOREEND);
+render(siteTripEventsElement, new SortingComponent(sortingTypes), RenderPosition.BEFOREEND);
+render(siteTripEventsElement, new TripListComponent(), RenderPosition.BEFOREEND);
 
 const siteTripEventsListElement = siteTripEventsElement.querySelector(`.trip-events__list`);
 /*eslint-disable */
-// render(siteTripEventsListElement, new CreationFormComponent().getElement(), RenderPosition.BEFOREEND);
+// render(siteTripEventsListElement, new CreationFormComponent(), RenderPosition.BEFOREEND);
 /*eslint-disable */
 const renderTrip = () => {
   if (routePoints.length === 0) {
-    render(siteTripEventsElement, new NoPoints().getElement(), RenderPosition.BEFOREEND);
+    render(siteTripEventsElement, new NoPoints(), RenderPosition.BEFOREEND);
     return;
   }
 
@@ -80,10 +76,10 @@ const renderTrip = () => {
   ];
 
   const siteTripMainElement = document.querySelector(`.trip-main`);
-  render(siteTripMainElement, new TripInfoComponent(tripPointsCities, tripPointsDates).getElement(), RenderPosition.AFTERBEGIN);
+  render(siteTripMainElement, new TripInfoComponent(tripPointsCities, tripPointsDates), RenderPosition.AFTERBEGIN);
 
   const siteTripInfoElement = siteTripMainElement.querySelector(`.trip-info`)
-  render(siteTripInfoElement, new PriceComponent(routePoints).getElement(), RenderPosition.BEFOREEND);
+  render(siteTripInfoElement, new PriceComponent(routePoints), RenderPosition.BEFOREEND);
 
   routePoints.map((routePoint) => renderTripPoint(routePoint, siteTripEventsListElement));
 }

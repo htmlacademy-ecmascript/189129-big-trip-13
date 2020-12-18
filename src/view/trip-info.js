@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const COUNT = 3;
 
@@ -23,26 +23,14 @@ const createTripInfoTemplate = (cities, dates) => {
   </section>`;
 };
 
-export default class TripInfoComponent {
+export default class TripInfoComponent extends Abstract {
   constructor(cities, dates) {
+    super();
     this._cities = cities;
     this._dates = dates;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripInfoTemplate(this._cities, this._dates);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

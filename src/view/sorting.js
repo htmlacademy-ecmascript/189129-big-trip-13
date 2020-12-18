@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const createSortingItemTemplate = (type) =>
   `<div class="trip-sort__item  trip-sort__item--${type.toLowerCase()}">
@@ -16,25 +16,13 @@ const createSortingTemplate = (typesData) => {
   );
 };
 
-export default class SortingComponent {
+export default class SortingComponent extends Abstract {
   constructor(sort) {
+    super();
     this._sort = sort;
-    this._element = null;
   }
 
   getTemplate() {
     return createSortingTemplate(this._sort);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,7 +1,7 @@
-import {getRandomInteger} from "../utils";
-import {getRandomElement} from "../utils";
-import {getRandomElements} from "../utils";
-import {getNewArray} from "../utils";
+import {getRandomInteger} from "../utils/utils";
+import {getRandomElement} from "../utils/utils";
+import {getRandomElements} from "../utils/utils";
+import {getNewArray} from "../utils/utils";
 
 const POINT_COUNT = 20;
 

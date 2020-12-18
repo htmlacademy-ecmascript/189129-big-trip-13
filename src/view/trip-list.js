@@ -1,27 +1,11 @@
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const createTripListTemplate = () =>
   `<ul class="trip-events__list"></ul>`;
 
-export default class TripListComponent {
-  constructor() {
-    this._element = null;
-  }
-
+export default class TripListComponent extends Abstract {
   getTemplate() {
     return createTripListTemplate(this._tripList);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

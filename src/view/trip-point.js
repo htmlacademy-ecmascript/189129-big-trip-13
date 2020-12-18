@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const createOffersTemplate = (name, price) =>
   `<li class="event__offer">
@@ -47,25 +47,24 @@ const createTripPointTemplate = (pointData) => {
   </li>`;
 };
 
-export default class TripPointComponent {
+export default class TripPointComponent extends Abstract {
   constructor(cardData) {
+    super();
     this._cardData = cardData;
-    this._element = null;
+    this._editClickHandler = this._editClickHandler.bind(this);
   }
 
   getTemplate() {
     return createTripPointTemplate(this._cardData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _editClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
   }
 }

@@ -1,6 +1,6 @@
-import {formatDate} from "../utils";
-import {formatTime} from "../utils";
-import {createElement} from "../utils";
+import {formatDate} from "../utils/date";
+import {formatTime} from "../utils/date";
+import Abstract from "./abstract";
 import {routePointTypeNames} from "../mock/trip-point";
 
 const createOffersTemplate = (type, name, price) =>
@@ -109,25 +109,35 @@ const createEditFormTemplate = (pointData) => {
   </li>`;
 };
 
-export default class EditFormComponent {
+export default class EditFormComponent extends Abstract {
   constructor(cardData) {
+    super();
     this._cardData = cardData;
-    this._element = null;
+    this._closeClickHandler = this._closeClickHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createEditFormTemplate(this._cardData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _closeClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeClick();
   }
 
-  removeElement() {
-    this._element = null;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setCloseClickHandler(callback) {
+    this._callback.closeClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._closeClickHandler);
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
